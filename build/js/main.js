@@ -17,6 +17,22 @@ let employees = [
     new dataTypes_1.Employee("Bob Smith", "Sales"),
     new dataTypes_1.Employee("Alice Jones", "Sales")
 ];
+class ArrayCollection {
+    constructor() {
+        this.items = [];
+    }
+    add(...newItems) {
+        this.items.push(...newItems);
+    }
+    get count() {
+        return this.items.length;
+    }
+}
+class ProductCollection extends ArrayCollection {
+    get(searchTerm) {
+        return this.items.find(item => item.name === searchTerm);
+    }
+}
 class PersonCollection {
     constructor() {
         this.items = [];
@@ -31,20 +47,8 @@ class PersonCollection {
         return this.items.length;
     }
 }
-let peopleCollection = new PersonCollection();
-peopleCollection.add(new dataTypes_1.Person("Bob Smith", "London"), new dataTypes_1.Person("Dora Peters", "New York"));
-console.log(`Collection size:
-${peopleCollection.count}`);
-// class SearchableCollection extends DataCollection<Employee>{
-//     constructor(initialItems:Employee[]){
-//         super(initialItems)
-//     }
-//     find(name:string): Employee[]{
-//         return this.items.filter(item=>item.name === name || item.role === name)
-//     }
-// }
-// let firstPerson = peopleData.getItem(0)
-// console.log(`First Person ${firstPerson.name}, ${firstPerson.city}`)
-// console.log(`Person Names: ${peopleData.getNames().join(', ')}`)
-// let cityData = new DataCollection<City>(cities);
-// console.log(`City names: ${cityData.getNames().join(', ')}`)
+let peopleColl = new PersonCollection();
+peopleColl.add(new dataTypes_1.Person("Bob smith", "London"), new dataTypes_1.Person("Dora Peters", "New York"));
+let productCollection = new ProductCollection();
+productCollection.add(new dataTypes_1.Product("Running Shoes", 100), new dataTypes_1.Product("Hat", 25));
+[peopleColl, productCollection].forEach(c => console.log(`Size: ${c.count}`));

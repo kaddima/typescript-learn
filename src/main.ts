@@ -26,6 +26,29 @@ interface Icollection<T extends shapeType>{
     count:number
 }
 
+abstract class ArrayCollection<T extends shapeType> implements Icollection<T>{
+
+    protected items:T[] = []
+
+    add(...newItems: T[]): void {
+        this.items.push(...newItems)
+    }
+
+    abstract get(searchTerm:string):T | undefined
+
+    get count():number{
+        return this.items.length
+    }
+}
+
+
+class ProductCollection extends ArrayCollection<Product>{
+    get(searchTerm: string): Product | undefined {
+        return this.items.find(item=>item.name === searchTerm)
+    }
+}
+
+
 class PersonCollection implements Icollection<Person>{
 
     private items:Person[] = []
@@ -43,35 +66,14 @@ class PersonCollection implements Icollection<Person>{
     }
 }
 
-let peopleCollection: Icollection<Person> = new PersonCollection();
 
-peopleCollection.add(new Person("Bob Smith"
-,
-"London"),
-new Person("Dora Peters"
-,
-"New York"));
-console.log(`Collection size:
-${peopleCollection.count}`);
+let peopleColl : Icollection<Person> = new PersonCollection()
+peopleColl.add(new Person("Bob smith","London"), 
+new Person("Dora Peters", "New York"))
 
-// class SearchableCollection extends DataCollection<Employee>{
+let productCollection: Icollection<Product> = new ProductCollection();
+productCollection.add(new Product("Running Shoes",100), 
+new Product("Hat", 25));
 
-//     constructor(initialItems:Employee[]){
-//         super(initialItems)
-//     }
-
-//     find(name:string): Employee[]{
-//         return this.items.filter(item=>item.name === name || item.role === name)
-//     }
-// }
-
-
-
-
-
-// let firstPerson = peopleData.getItem(0)
-// console.log(`First Person ${firstPerson.name}, ${firstPerson.city}`)
-// console.log(`Person Names: ${peopleData.getNames().join(', ')}`)
-
-// let cityData = new DataCollection<City>(cities);
-// console.log(`City names: ${cityData.getNames().join(', ')}`)
+[peopleColl, productCollection].forEach(c =>
+    console.log(`Size: ${c.count}`));
