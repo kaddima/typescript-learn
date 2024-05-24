@@ -17,38 +17,27 @@ let employees = [
     new dataTypes_1.Employee("Bob Smith", "Sales"),
     new dataTypes_1.Employee("Alice Jones", "Sales")
 ];
-class ArrayCollection {
-    constructor() {
-        this.items = [];
+class Collection {
+    constructor(initialItems = []) {
+        this.items = new Map();
+        this.add(...initialItems);
     }
     add(...newItems) {
-        this.items.push(...newItems);
-    }
-    get count() {
-        return this.items.length;
-    }
-}
-class ProductCollection extends ArrayCollection {
-    get(searchTerm) {
-        return this.items.find(item => item.name === searchTerm);
-    }
-}
-class PersonCollection {
-    constructor() {
-        this.items = [];
-    }
-    add(...newItems) {
-        this.items.push(...newItems);
+        newItems.forEach(newItem => this.items.set(newItem.name, newItem));
     }
     get(name) {
-        return this.items.find(item => item.name === name);
+        return this.items.get(name);
     }
     get count() {
-        return this.items.length;
+        return this.items.size;
+    }
+    values() {
+        return this.items.values();
     }
 }
-let peopleColl = new PersonCollection();
-peopleColl.add(new dataTypes_1.Person("Bob smith", "London"), new dataTypes_1.Person("Dora Peters", "New York"));
-let productCollection = new ProductCollection();
-productCollection.add(new dataTypes_1.Product("Running Shoes", 100), new dataTypes_1.Product("Hat", 25));
-[peopleColl, productCollection].forEach(c => console.log(`Size: ${c.count}`));
+let productCollection = new Collection(products);
+let iterator = productCollection.values();
+let result = iterator.next();
+console.log(result.value);
+let p = productCollection.get("Hat");
+console.log(`Product : ${p === null || p === void 0 ? void 0 : p.name}, ${p === null || p === void 0 ? void 0 : p.price}`);

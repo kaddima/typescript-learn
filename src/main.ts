@@ -1,5 +1,13 @@
 import {Person, Product,City, Employee} from "./dataTypes"
 
+interface Icollection<T extends shapeType>{
+    add(...newItems:T[]):void
+    get(name:string):T | undefined
+    count:number
+}
+
+type shapeType = {name:string}
+
 let people = [
     new Person("Bob Smith", "London"),
     new Person("Dora Peters","New York")
@@ -16,64 +24,50 @@ let cities = [
 
 let employees = [
     new Employee("Bob Smith","Sales"),
-    new Employee("Alice Jones","Sales")];
+    new Employee("Alice Jones","Sales")
+];
 
-    type shapeType = {name:string}
 
-interface Icollection<T extends shapeType>{
-    add(...newItems:T[]):void
-    get(name:string):T | undefined
-    count:number
-}
+class Collection<T extends shapeType>{
 
-abstract class ArrayCollection<T extends shapeType> implements Icollection<T>{
+    private items: Map<string,T>
 
-    protected items:T[] = []
+    constructor(initialItems:T[] = []){
+        this.items = new Map<string, T>()
+
+        this.add(...initialItems)
+    }
 
     add(...newItems: T[]): void {
-        this.items.push(...newItems)
+        newItems.forEach(newItem=>this.items.set(newItem.name, newItem))
+        
     }
 
-    abstract get(searchTerm:string):T | undefined
-
-    get count():number{
-        return this.items.length
-    }
-}
-
-
-class ProductCollection extends ArrayCollection<Product>{
-    get(searchTerm: string): Product | undefined {
-        return this.items.find(item=>item.name === searchTerm)
-    }
-}
-
-
-class PersonCollection implements Icollection<Person>{
-
-    private items:Person[] = []
-
-    add(...newItems: Person[]): void {
-        this.items.push(...newItems)
-    }
-
-    get(name: string): Person | undefined {
-        return this.items.find(item=> item.name === name)
+    get(name: string): T | undefined {
+        return this.items.get(name)
     }
 
     get count():number{
-        return this.items.length
+        return this.items.size
+    }
+
+
+    values():Iterator<T>{
+
+        return this.items.values()
     }
 }
 
 
-let peopleColl : Icollection<Person> = new PersonCollection()
-peopleColl.add(new Person("Bob smith","London"), 
-new Person("Dora Peters", "New York"))
+let productCollection = new Collection(products);
 
-let productCollection: Icollection<Product> = new ProductCollection();
-productCollection.add(new Product("Running Shoes",100), 
-new Product("Hat", 25));
+let iterator:Iterator<Product> = productCollection.values()
 
-[peopleColl, productCollection].forEach(c =>
-    console.log(`Size: ${c.count}`));
+let result:IteratorResult<Product> = iterator.next()
+
+console.log(result.value)
+
+let p = productCollection.get("Hat")
+
+console.log(`Product : ${p?.name}, ${p?.price}`)
+
