@@ -22,6 +22,9 @@ class Collection {
         this.items = new Map();
         this.add(...initialItems);
     }
+    [Symbol.iterator]() {
+        return this.items.values();
+    }
     add(...newItems) {
         newItems.forEach(newItem => this.items.set(newItem.name, newItem));
     }
@@ -37,7 +40,4 @@ class Collection {
 }
 let productCollection = new Collection(products);
 let iterator = productCollection.values();
-let result = iterator.next();
-console.log(result.value);
-let p = productCollection.get("Hat");
-console.log(`Product : ${p === null || p === void 0 ? void 0 : p.name}, ${p === null || p === void 0 ? void 0 : p.price}`);
+console.log(iterator.next());

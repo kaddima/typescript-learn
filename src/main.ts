@@ -28,7 +28,7 @@ let employees = [
 ];
 
 
-class Collection<T extends shapeType>{
+class Collection<T extends shapeType> implements Iterable<T>{
 
     private items: Map<string,T>
 
@@ -36,6 +36,11 @@ class Collection<T extends shapeType>{
         this.items = new Map<string, T>()
 
         this.add(...initialItems)
+    }
+
+    [Symbol.iterator]():Iterator<T>{
+
+        return this.items.values()
     }
 
     add(...newItems: T[]): void {
@@ -52,22 +57,14 @@ class Collection<T extends shapeType>{
     }
 
 
-    values():Iterator<T>{
+    values():IterableIterator<T>{
 
         return this.items.values()
     }
 }
 
-
 let productCollection = new Collection(products);
 
-let iterator:Iterator<Product> = productCollection.values()
+let iterator = productCollection.values()
 
-let result:IteratorResult<Product> = iterator.next()
-
-console.log(result.value)
-
-let p = productCollection.get("Hat")
-
-console.log(`Product : ${p?.name}, ${p?.price}`)
-
+console.log(iterator.next())
