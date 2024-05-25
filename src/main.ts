@@ -170,3 +170,12 @@ let p6:CustomMapped<"name"|"city", string> = {
 let p7: Record<"name"|"city", string> = {name:"kadima",city:"Lagos"}
 ///////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+
+//Using conditional types
+type resultType<T extends boolean> = T extends true ? string:number
+
+let firstVal:resultType<true> = "string value"
+let secondVal:resultType<false> = 100
+
+//let mismatchCheck:resultType<false> = "string"
+
