@@ -18,7 +18,8 @@ let employees = [
     new dataTypes_1.Employee("Alice Jones", "Sales")
 ];
 class Collection {
-    constructor(initialItems = []) {
+    constructor(initialItems = [], propertyName) {
+        this.propertyName = propertyName;
         this.items = new Map();
         this.add(...initialItems);
     }
@@ -26,10 +27,10 @@ class Collection {
         return this.items.values();
     }
     add(...newItems) {
-        newItems.forEach(newItem => this.items.set(newItem.name, newItem));
+        newItems.forEach(newItem => this.items.set(newItem[this.propertyName], newItem));
     }
-    get(name) {
-        return this.items.get(name);
+    get(key) {
+        return this.items.get(key);
     }
     get count() {
         return this.items.size;
@@ -38,6 +39,12 @@ class Collection {
         return this.items.values();
     }
 }
-let productCollection = new Collection(products);
-let iterator = productCollection.values();
-console.log(iterator.next());
+let p = { name: "kadima", price: 35 };
+//here type script wont complain despite assign string to the price
+//property instead of number
+let q = { name: "kadima", price: "apples" };
+//the changeNames type is created with a mapping that alters the name
+//of each property by adding Property to it
+let r = { nameProperty: "kadima", priceProperty: 21 };
+let p2 = { name: "kadima", price: 358 };
+console.log(p2.name);

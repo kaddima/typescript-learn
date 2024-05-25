@@ -6,6 +6,8 @@ interface Icollection<T extends shapeType>{
     count:number
 }
 
+
+
 type shapeType = {name:string}
 
 let people = [
@@ -28,12 +30,12 @@ let employees = [
 ];
 
 
-class Collection<T extends shapeType> implements Iterable<T>{
+class Collection<T, K extends keyof T> implements Iterable<T>{
 
-    private items: Map<string,T>
+    private items: Map<T[K],T>
 
-    constructor(initialItems:T[] = []){
-        this.items = new Map<string, T>()
+    constructor(initialItems:T[] = [],private propertyName:K){
+        this.items = new Map<T[K], T>()
 
         this.add(...initialItems)
     }
@@ -44,12 +46,13 @@ class Collection<T extends shapeType> implements Iterable<T>{
     }
 
     add(...newItems: T[]): void {
-        newItems.forEach(newItem=>this.items.set(newItem.name, newItem))
+        newItems.forEach(newItem=>
+            this.items.set(newItem[this.propertyName], newItem))
         
     }
 
-    get(name: string): T | undefined {
-        return this.items.get(name)
+    get(key:T[K]): T | undefined {
+        return this.items.get(key)
     }
 
     get count():number{
@@ -63,8 +66,44 @@ class Collection<T extends shapeType> implements Iterable<T>{
     }
 }
 
-let productCollection = new Collection(products);
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
-let iterator = productCollection.values()
+//Type mapping
+type MappedProduct = {
 
-console.log(iterator.next())
+    [P in keyof Product]: Product[P]
+}
+
+let p:MappedProduct = {name:"kadima",price:35}
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+
+//Changing mappinf Names and types
+
+type AllowStrings = {
+    [P in keyof Product] : Product[P] | string
+}
+
+//here type script wont complain despite assign string to the price
+//property instead of number
+let q:AllowStrings = {name:"kadima",price:"apples"}
+//////////////////////////////////////////////////////////////////
+type changeNames = {
+    [P in keyof Product as `${P}Property`]:Product[P]
+}
+
+//the changeNames type is created with a mapping that alters the name
+//of each property by adding Property to it
+let r:changeNames = {nameProperty:"kadima",priceProperty:21}
+/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+
+//Using generic Type parameter with a mapped Type
+type Mapped<T> = {
+    [P in keyof T]: T[P]
+}
+
+let p2:Mapped<Product> = {name:"kadima",price:358}
+console.log(p2.name)
