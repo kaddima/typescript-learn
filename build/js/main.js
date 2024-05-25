@@ -39,6 +39,7 @@ class Collection {
         return this.items.values();
     }
 }
+let peopleCollection = new Collection(people, "name");
 let p = { name: "kadima", price: 35 };
 //here type script wont complain despite assign string to the price
 //property instead of number
@@ -47,4 +48,15 @@ let q = { name: "kadima", price: "apples" };
 //of each property by adding Property to it
 let r = { nameProperty: "kadima", priceProperty: 21 };
 let p2 = { name: "kadima", price: 358 };
-console.log(p2.name);
+let p3 = { name: 'kadima', price: 200 };
+//the pick mapping specifies the keys that are to e kept in the mapped type
+let p4 = { name: 'kadima' };
+//Omit mapping works in opposite way and excludes one or more keys
+let p5 = { name: 'kadima' };
+let p6 = {
+    name: "kadima",
+    city: "London"
+};
+let p7 = { name: "kadima", city: "Lagos" };
+///////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////

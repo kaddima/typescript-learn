@@ -66,6 +66,9 @@ class Collection<T, K extends keyof T> implements Iterable<T>{
     }
 }
 
+
+let peopleCollection = new Collection(people,"name")
+
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 
@@ -106,4 +109,64 @@ type Mapped<T> = {
 }
 
 let p2:Mapped<Product> = {name:"kadima",price:358}
-console.log(p2.name)
+/////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+
+//Changing property Optionality and mutability
+/* Mapped types can change properties to make them optional, required
+and to add or temove the readonly keyword */
+
+type MakeOptional<T> = {
+    [P in keyof T]? : T[P]
+}
+
+type MakeRequired<T> = {
+    [P in keyof T]-? : T[P]
+}
+
+type MakeReadOnly<T> = {
+    readonly [P in keyof T] : T[P]
+}
+
+type MakeReadWrite<T> = {
+    -readonly [P in keyof T] : T[P]
+}
+
+/* Typescripts built in mapped types doing exactly the above */
+type optionalType = Partial<Product>
+type requiredType = Required<optionalType>
+type readonlyType = Readonly<requiredType>
+////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+
+//Mapping specific properties
+type SelectedProperties<T, K extends keyof T> = {
+
+    [P in K] : T[P]
+}
+
+let p3:SelectedProperties<Product, "name"|"price"> = {name:'kadima',price:200} 
+//the pick mapping specifies the keys that are to e kept in the mapped type
+let p4:Pick<Product,"name"> = {name:'kadima'}
+//Omit mapping works in opposite way and excludes one or more keys
+let p5:Omit<Product, "price"> = {name:'kadima'}
+
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+//Creating types with a type mapping
+
+type CustomMapped<K extends keyof any, T> = {
+
+    [P in K] : T
+}
+
+let p6:CustomMapped<"name"|"city", string> = {
+    name:"kadima",
+    city:"London"
+}
+
+let p7: Record<"name"|"city", string> = {name:"kadima",city:"Lagos"}
+///////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
