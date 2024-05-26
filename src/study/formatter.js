@@ -12,7 +12,7 @@ export function costFormatter(thing, cost){
     writeMsg(`The ${thing} cost $${cost.toFixed(2)}`)
 }
 
-function writeMsg(message){
+export function writeMsg(message){
 
     console.log(message)
 }

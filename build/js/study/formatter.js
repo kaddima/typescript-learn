@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.costFormatter = exports.sizeFormatter = void 0;
+exports.writeMsg = exports.costFormatter = exports.sizeFormatter = void 0;
 //@ts-nocheck
 /**
 * Format something that has a money value
@@ -18,3 +18,4 @@ exports.costFormatter = costFormatter;
 function writeMsg(message) {
     console.log(message);
 }
+exports.writeMsg = writeMsg;
