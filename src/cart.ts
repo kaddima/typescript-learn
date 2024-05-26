@@ -38,4 +38,10 @@ export class Cart{
             return total += item.totalPrice
         }, 0)
     }
+
+    get itemCount():number{
+        return [...this.items.values()].reduce((total,item)=>{
+            return total += item.quantity
+        },0)
+    }
 }

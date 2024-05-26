@@ -31,5 +31,10 @@ class Cart {
             return total += item.totalPrice;
         }, 0);
     }
+    get itemCount() {
+        return [...this.items.values()].reduce((total, item) => {
+            return total += item.quantity;
+        }, 0);
+    }
 }
 exports.Cart = Cart;
