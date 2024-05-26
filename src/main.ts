@@ -178,4 +178,3 @@ let firstVal:resultType<true> = "string value"
 let secondVal:resultType<false> = 100
 
 //let mismatchCheck:resultType<false> = "string"
-
