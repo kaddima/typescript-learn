@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"tsc-watch --onsuccess \" node build/js/index.js\"",
+    "start": "tsc-watch --onsuccess \" node build/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,5 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "tsc-watch": "^6.2.0"
+  },
+  "devDependencies": {
+    "ts-loader": "^8.4.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.15.1"
   }
 }
