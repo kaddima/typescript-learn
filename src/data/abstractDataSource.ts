@@ -52,7 +52,6 @@ export abstract class AbstractDataSource{
         return [...this._categories.values()]
     }
 
-    protected abstract loadProducts():Promise<Product[]>;
-    
+    protected abstract loadProducts():Promise<TProduct[]>;
     abstract storeOrder(): Promise<number>;
 }
