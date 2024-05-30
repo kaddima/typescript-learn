@@ -30,6 +30,7 @@ export class Order{
             if(qunatity === 0){
                 this.removeProduct(prod.id)
             }else{
+                //"!" non null assertion certain value wont be null
                 this.lines.get(prod.id)!.quantity += qunatity
             }
         }else{

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc-watch --onsuccess \" node build/index.js\"",
+    "serve": "npx webpack serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
