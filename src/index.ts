@@ -1,83 +1,34 @@
-class Component{
-    constructor(public name:string){}
-}
+import fs = require('fs')
 
-// ITERATOR
+function loadJSON(filename:string, cb:(error:Error|null,data?:any)=>void){
 
-class Frame implements Iterator<Component>{
+    fs.readFile(filename, (err,data)=>{
 
-    private pointer = 0
-
-    constructor(public name:string, public components:Component[]){}
-
-    public next(): IteratorResult<Component> {
-        if(this.pointer < this.components.length){
-
-            return {
-                done:false,
-                value:this.components[this.pointer++]
-            }
-        }else{
-            return {
-                done:true,
-                value:null
-            }
+        if(err){ 
+            cb(err)
         }
-    }
+        else{
+            try {
+                var parsed = JSON.parse(data.toString())
+            } catch (error:any) {
+                return cb(error)
+            } 
+
+            return cb(null, parsed)
+            
+        }
+    })
 }
 
-//ITERABLE
-class FrameIterable implements Iterable<Component>{
+loadJSON('./package.json', (err,data)=>{
+    console.log('our callback called')
+    if(err){
 
-    constructor(public name:string, public components:Component[]){}
+        console.log(err.message)
+    }else{
 
-    [Symbol.iterator](){
-        let pointer = 0;
-        let components = this.components
-
-        return {
-            next(): IteratorResult<Component> {
-                if(pointer <components.length){
+        console.log(data)
         
-                    return {
-                        done:false,
-                        value:components[pointer++]
-                    }
-                }else{
-                    return {
-                        done:true,
-                        value:null
-                    }
-                }
-            }
-        }
-    }
-}
-
-//ITERABLEITERATOR
-
-class FrameIterableIterator implements IterableIterator<Component>{
-
-    private pointer = 0
-
-    constructor(public name:string, public components:Component[]){}
-
-    public next(): IteratorResult<Component> {
-        if(this.pointer < this.components.length){
-
-            return {
-                done:false,
-                value:this.components[this.pointer++]
-            }
-        }else{
-            return {
-                done:true,
-                value:null
-            }
-        }
     }
 
-    [Symbol.iterator]():IterableIterator<Component>{
-        return this
-    }
-}
+})
