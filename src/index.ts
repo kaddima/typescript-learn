@@ -20,15 +20,27 @@ function loadJSON(filename:string, cb:(error:Error|null,data?:any)=>void){
     })
 }
 
-loadJSON('./package.json', (err,data)=>{
-    console.log('our callback called')
-    if(err){
 
-        console.log(err.message)
-    }else{
+function readFileAsync(file:string):Promise<any>{
 
-        console.log(data)
-        
-    }
+    return new Promise((resolve,reject)=>{
 
-})
+        fs.readFile(file, (err,data)=>{
+            if(err) reject(err);
+            else resolve(data.toString())
+        })
+    })
+}
+
+function* gen(){
+    
+     yield 'kadima'
+}
+
+let ite = gen()
+
+
+console.log(ite.next())
+console.log(ite.next())
+console.log(ite.next())
+
