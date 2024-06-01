@@ -1,15 +1,1 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const product_1 = require("./product");
-const cart_1 = require("./cart");
-const formatter_1 = require("./formatter");
-let kayak = new product_1.SportProduct(1, 'kayak', 275, product_1.SPORT.Watersports);
-let hat = new product_1.SportProduct(2, 'Hat', 27.05, product_1.SPORT.Watersports);
-let ball = new product_1.SportProduct(3, 'Ball', 19.50, product_1.SPORT.Soccer);
-let cart = new cart_1.Cart("kadima");
-cart.addProduct(kayak, 1);
-cart.addProduct(hat, 1);
-cart.addProduct(hat, 2);
-(0, formatter_1.sizeFormatter)("Cart", cart.itemCount);
-(0, formatter_1.costFormatter)("Cart", cart.totalPrice);
-(0, formatter_1.writeMsg)('Test message');

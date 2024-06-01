@@ -1,36 +1,14 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require("fs");
-function loadJSON(filename, cb) {
-    fs.readFile(filename, (err, data) => {
-        if (err) {
-            cb(err);
-        }
-        else {
-            try {
-                var parsed = JSON.parse(data.toString());
-            }
-            catch (error) {
-                return cb(error);
-            }
-            return cb(null, parsed);
-        }
-    });
+function strEnum(o) {
+    return o.reduce((result, key) => {
+        result[key] = key;
+        return result;
+    }, Object.create(null));
 }
-function readFileAsync(file) {
-    return new Promise((resolve, reject) => {
-        fs.readFile(file, (err, data) => {
-            if (err)
-                reject(err);
-            else
-                resolve(data.toString());
-        });
-    });
+const direction = strEnum(['North', 'South', "East", "West"]);
+let foo = { bar: 234 };
+function imutateFoo(foo) {
+    foo.bar = 456;
 }
-function* gen() {
-    let name = yield 'kadima';
-}
-let ite = gen();
-console.log(ite.next());
-console.log(ite.next());
-console.log(ite.next());
+imutateFoo(foo);
+console.log(foo.bar);
